@@ -75,18 +75,12 @@
 		}
 		dojo.addOnLoad(function(){
 			getReserves();
-			//if (!dojo.isIE)
-			//{
 			var layout =  [{cells:[[
     				{field: "course_code", name: "Course Code", width: "50%"},
     				{field: "instructor", name: "Instructor", width: "50%"}
 				]]}];
 			grid = new dojox.grid.DataGrid({
-				id: 'grid',
-				jsId: 'grid',
-				widgetId: 'grid',
 				query: { course_code: '*' },
-//				query: { complexQuery: "course_code: \"A*\" OR course_code: \"B*\" OR course_code: \"C*\"" },
 				store: reservesStore,
 				structure: layout,
 				autoHeight: true
@@ -98,31 +92,6 @@
 			});
 			dojo.byId("grid").appendChild(grid.domNode);
 			grid.startup();
-		//	}
-			// IE does not want to render the grid, so we shall give it text
-		/*	else
-			{
-				var sortKeys = [ {attribute: "course_code", descending: false} ];
-				reservesStore.fetch({
-						sort: sortKeys,
-						onComplete: function(r){
-							dojo.byId("grid").innerHTML = "<ol>";
-							dojo.forEach(r, function(i)
-							{
-								// A stupid IE hack, since it cannot handle long web addresses
-								if (reservesStore.getValue(i, "bookbag_id") == "215")
-								{
-									dojo.byId("grid").innerHTML += "<li><a href=\"http://laurentian.concat.ca/opac/extras/feed/bookbag/html-full/" + reservesStore.getValue(i, "bookbag_id")+ "\">"+ reservesStore.getValue(i, "course_code") + " - " + reservesStore.getValue(i, "instructor") + "</li>\n";	
-								}
-								else
-								{
-									dojo.byId("grid").innerHTML += "<li><a href=\"http://laurentian.concat.ca/opac/extras/feed/bookbag/opac/" + reservesStore.getValue(i, "bookbag_id") + "?skin=lul&searchOrg=OSUL\">"+ reservesStore.getValue(i, "course_code") + " - " + reservesStore.getValue(i, "instructor") + "</li>\n";
-								}
-							});
-							dojo.byId("grid").innerHTML += "</table>";
-						}	
-						});
-			}*/
 		});
 	</script>
 </head>
