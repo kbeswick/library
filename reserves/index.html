@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+	"http://www.w3.org/TR/html4/loose.dtd"> 
+<html> 
+<head> 
+	<title>List Reserves/Liste Des Reserves</title> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta> 
+	<style type="text/css"> 
+		@import "dojo/resources/dojo.css"; 
+		@import "dojox/grid/resources/Grid.css"; 
+		#grid { 
+			width: 100%; 
+			height: auto; 
+		}
+		div.center { margin: auto; width: 70%; }
+	</style> 
+	<script type="text/javascript" src="dojo/dojo.js"  
+		djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script> 
+	<script type="text/javascript"> 
+		dojo.require("dijit.dijit");
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dojo.parser");
+		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dojox.grid.DataGrid");
+		dojo.require("dojo.io.iframe");
+		dojo.require("dojo.io.script");
+		dojo.require("dojox.data.AndOrReadStore");
+
+		var reservesStore;
+		var grid;
+
+		function showInstructions(lang)
+        {
+			var oppLang = "english";
+			if (lang == "english")
+				oppLang = "french";
+
+            var currentState = dojo.style(dojo.byId("instructions_" + lang), "display");
+            if (currentState == "none")
+            {
+                dojo.style(dojo.byId("instructions_" + lang), "display", "inline");
+                if (dojo.style(dojo.byId("instructions"), "display") == "none")
+                    dojo.style(dojo.byId("instructions"), "display", "inline");
+				if (dojo.style(dojo.byId("instructions_" + oppLang), "display") == "inline")
+					dojo.style(dojo.byId("instructions_" + oppLang), "display", "none");
+            }
+            else
+            {
+                dojo.style(dojo.byId("instructions_" + lang), "display", "none");
+                if (dojo.style(dojo.byId("instructions_" + oppLang), "display") == "none")
+                    dojo.style(dojo.byId("instructions"), "display", "none");
+            }
+            
+        }
+		
+		function narrowList(letters){
+			var filterQuery = '';
+			dojo.forEach(letters, function(l) {
+				filterQuery += 'course_code: "' + l + '*" OR ';
+			});
+			filterQuery = filterQuery.substring(0, filterQuery.length - 4);
+			grid.filter({ complexQuery: filterQuery });
+		}
+
+		function getReserves(){
+			var xhrArgs = {
+				url: "reserves.php?mode=get",
+				handleAs: "json",
+				sync: true,
+				preventCache: true,
+				load: function(responseObject) {
+					reservesStore = new dojox.data.AndOrReadStore({data: responseObject});
+				}
+			};
+			dojo.xhrGet(xhrArgs);
+		}
+		dojo.addOnLoad(function(){
+			getReserves();
+			//if (!dojo.isIE)
+			//{
+			var layout =  [{cells:[[
+    				{field: "course_code", name: "Course Code", width: "50%"},
+    				{field: "instructor", name: "Instructor", width: "50%"}
+				]]}];
+			grid = new dojox.grid.DataGrid({
+				id: 'grid',
+				jsId: 'grid',
+				widgetId: 'grid',
+				query: { course_code: '*' },
+//				query: { complexQuery: "course_code: \"A*\" OR course_code: \"B*\" OR course_code: \"C*\"" },
+				store: reservesStore,
+				structure: layout,
+				autoHeight: true
+				}, document.createElement('div'));
+
+			grid.setSortIndex(0, true);
+			dojo.connect(dijit.byId('grid'), 'onRowClick', function(e){
+				window.open('http://laurentian.concat.ca/opac/extras/feed/bookbag/opac/' + grid.store.getValue(grid.getItem(e.rowIndex),'bookbag_id') +'?skin=lul&searchOrg=OSUL');
+			});
+			dojo.byId("grid").appendChild(grid.domNode);
+			grid.startup();
+		//	}
+			// IE does not want to render the grid, so we shall give it text
+		/*	else
+			{
+				var sortKeys = [ {attribute: "course_code", descending: false} ];
+				reservesStore.fetch({
+						sort: sortKeys,
+						onComplete: function(r){
+							dojo.byId("grid").innerHTML = "<ol>";
+							dojo.forEach(r, function(i)
+							{
+								// A stupid IE hack, since it cannot handle long web addresses
+								if (reservesStore.getValue(i, "bookbag_id") == "215")
+								{
+									dojo.byId("grid").innerHTML += "<li><a href=\"http://laurentian.concat.ca/opac/extras/feed/bookbag/html-full/" + reservesStore.getValue(i, "bookbag_id")+ "\">"+ reservesStore.getValue(i, "course_code") + " - " + reservesStore.getValue(i, "instructor") + "</li>\n";	
+								}
+								else
+								{
+									dojo.byId("grid").innerHTML += "<li><a href=\"http://laurentian.concat.ca/opac/extras/feed/bookbag/opac/" + reservesStore.getValue(i, "bookbag_id") + "?skin=lul&searchOrg=OSUL\">"+ reservesStore.getValue(i, "course_code") + " - " + reservesStore.getValue(i, "instructor") + "</li>\n";
+								}
+							});
+							dojo.byId("grid").innerHTML += "</table>";
+						}	
+						});
+			}*/
+		});
+	</script>
+</head>
+<body class="tundra">
+<div class="center">
+	<img src="laurentian.jpg" />
+	<br />
+	<div class="content">
+	<h1>Reserves List / Liste De Réserves</h1>
+	<br />
+	<h3><a href="#" onClick='showInstructions("english")'>Show English Instructions</a></h3>
+	<h3><a href="#" onClick='showInstructions("french")'>Montrez Les Instructions Françaises</a></h3>
+	<div id="instructions" style="display:none">
+
+		<div id="instructions_english" style="display:none">
+
+		<h3>
+			Professors may place library material which is in high demand on reserve. By placing an item on reserve, a professor ensures that the maximum number of students will have access to the material. <br><br>
+
+			Reserve material is kept at the circulation desk and is available on a limited-term loan period from two hours to three days. <br><br>
+
+			To access a list of reserves for a given course, please select the course below. You can sort the list either by course or instructor by clicking on the corresponding heading in the list. <br><br>
+		
+			When you click on a course, a list of the reserves for that course will be brought up in the catalogue. To obtain a reserve number for a specific book, click on the book title, then refer to the call number under the copy summary for that book as outlined in red in the images below. The call number may just contain the reserve number, or the reserve number followed by the book's actual call number. Ask for a reserve at the circulation desk using this reserve number.<br><br>
+		</h3>
+		</div>
+
+		<div id="instructions_french" style="display:none">
+			<h3>
+	                Les professeurs peuvent mettre en réserve des documents très en demande. Les professeurs placent des documents en réserve pour y garantir l'accès à un maximum d’étudiants.<br><br>
+
+					Ces documents sont conservés au comptoir du prêt et peuvent être empruntés pour une période de deux heures à trois jours.  <br><br>
+
+		            Pour accéder aux documents en réserve, sélectionnez votre cours parmi la liste si-dessous. Vous pouvez mettre la liste en order alphabétique par cours ou par professeur(e).<br><br>
+
+			   		Lorsque vous sélectionnez un cours, une liste de documents en réserve apparaîtra dans le catalogue. Pour obtenir le numéro de réserve, cliquez sur le titre du livre. Un numéro de réserve se trouve où la cote du livre apparait normalement (indiqué en rouge si-dessous). C'est ce numéro de réserve qui doit être demandé au comptoir du prêt afin d'obtenir votre document.<br><br>
+			</h3>
+
+			</div>
+
+			<img src="reserves.png" width="640px" height="393px" height=/>
+			<br />
+			<img src="reserves2.png" />
+		</div>
+	</div>
+	<br />
+	<br />
+	<div id="search">
+		<table>
+			<tr>
+				<td>Narrow by Course Code:</td>
+				<td><input dojoType="dijit.form.TextBox" id="course_search" intermediateChanges="true" onChange="grid.filter({ course_code: dijit.byId('course_search').attr('value').toUpperCase() + '*' });"></input></td>
+			</tr>
+			<tr>
+				<td>Narrow by Instructor (Last Name):</td>
+				<td><input dojoType="dijit.form.TextBox" id="ins_search" intermediateChanges="true" onChange="grid.filter({ instructor: dijit.byId('ins_search').attr('value') + '*' });"></input></td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="menu">
+		<h3>
+			<a href="#" onClick="narrowList( new Array('A','B','C') );">A-C</a>&nbsp;&nbsp;
+			<a href="#" onClick="narrowList( new Array('D','E','F') );">D-F</a>&nbsp;&nbsp;
+			<a href="#" onClick="narrowList( new Array('G','H','I') );">G-I</a>&nbsp;&nbsp;
+			<a href="#" onClick="narrowList( new Array('J','K','L') );">J-L</a>&nbsp;&nbsp;
+			<a href="#" onClick="narrowList( new Array('M','N','O') );">M-O</a>&nbsp;&nbsp;
+			<a href="#" onClick="narrowList( new Array('P','Q','R') );">P-R</a>&nbsp;&nbsp;
+			<a href="#" onClick="narrowList( new Array('S','T','U') );">S-U</a>&nbsp;&nbsp;
+			<a href="#" onClick="narrowList( new Array('V','W','X','Y','Z') );">V-Z</a>&nbsp;&nbsp;
+            <a href="#" onClick="narrowList( new Array('*') );">Show All</a>
+		</h3>
+	</div>
+	<div id="grid"></div>
+</div>
+</body>
+</html>
