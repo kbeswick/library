@@ -51,10 +51,15 @@
 		
 		function narrowList(letters){
 			var filterQuery = '';
-			dojo.forEach(letters, function(l) {
-				filterQuery += 'course_code: "' + l + '*" OR ';
-			});
-			filterQuery = filterQuery.substring(0, filterQuery.length - 4);
+			if (letters.constructor.toString().indexOf("Array") == -1) {
+				filterQuery += 'instructor: ' + letters;
+			}
+			else {
+				dojo.forEach(letters, function(l) {
+					filterQuery += 'course_code: "' + l + '*" OR ';
+				});
+				filterQuery = filterQuery.substring(0, filterQuery.length - 4);
+			}
 			grid.filter({ complexQuery: filterQuery });
 		}
 
@@ -145,6 +150,7 @@
 
 	<div id="menu">
 		<h3>
+			Filter by Course Code: &nbsp; &nbsp; &nbsp;
 			<a href="#" onClick="narrowList( new Array('A','B','C') );">A-C</a>&nbsp;&nbsp;
 			<a href="#" onClick="narrowList( new Array('D','E','F') );">D-F</a>&nbsp;&nbsp;
 			<a href="#" onClick="narrowList( new Array('G','H','I') );">G-I</a>&nbsp;&nbsp;
@@ -152,7 +158,8 @@
 			<a href="#" onClick="narrowList( new Array('M','N','O') );">M-O</a>&nbsp;&nbsp;
 			<a href="#" onClick="narrowList( new Array('P','Q','R') );">P-R</a>&nbsp;&nbsp;
 			<a href="#" onClick="narrowList( new Array('S','T','U') );">S-U</a>&nbsp;&nbsp;
-			<a href="#" onClick="narrowList( new Array('V','W','X','Y','Z') );">V-Z</a>&nbsp;&nbsp;
+			<a href="#" onClick="narrowList( new Array('V','W','X','Y','Z') );">V-Z</a>&nbsp;&nbsp
+			<a href="#" onClick="narrowList( 'ENVISION' );">ENVISION</a>&nbsp;&nbsp;
             <a href="#" onClick="narrowList( new Array('*') );">Show All</a>
 		</h3>
 	</div>
