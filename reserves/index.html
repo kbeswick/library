@@ -16,17 +16,14 @@
 	<script type="text/javascript" src="dojo/dojo.js"  
 		djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script> 
 	<script type="text/javascript"> 
-		dojo.require("dijit.dijit");
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dojo.parser");
 		dojo.require("dojo.data.ItemFileReadStore");
 		dojo.require("dojox.grid.DataGrid");
-		dojo.require("dojo.io.iframe");
 		dojo.require("dojo.io.script");
 		dojo.require("dojox.data.AndOrReadStore");
 
 		var reservesStore;
-		var grid;
 
 		function showInstructions(lang)
         {
@@ -73,26 +70,20 @@
 			};
 			dojo.xhrGet(xhrArgs);
 		}
-		dojo.addOnLoad(function(){
+
 			getReserves();
-			var layout =  [{cells:[[
+		 	var layout =  [{cells:[[
     				{field: "course_code", name: "Course Code", width: "50%"},
     				{field: "instructor", name: "Instructor", width: "50%"}
 				]]}];
-			grid = new dojox.grid.DataGrid({
-				query: { course_code: '*' },
-				store: reservesStore,
-				structure: layout,
-				autoHeight: true
-				}, document.createElement('div'));
-
-			grid.setSortIndex(0, true);
-			dojo.connect(dijit.byId('grid'), 'onRowClick', function(e){
+		
+		dojo.addOnLoad(function(){	
+			dojo.connect(grid, 'onRowClick', function(e){
 				window.open('http://laurentian.concat.ca/opac/extras/feed/bookbag/opac/' + grid.store.getValue(grid.getItem(e.rowIndex),'bookbag_id') +'?skin=lul&searchOrg=OSUL');
 			});
-			dojo.byId("grid").appendChild(grid.domNode);
-			grid.startup();
+			grid.setSortIndex(0, true);
 		});
+
 	</script>
 </head>
 <body class="tundra">
@@ -165,7 +156,8 @@
             <a href="#" onClick="narrowList( new Array('*') );">Show All</a>
 		</h3>
 	</div>
-	<div id="grid"></div>
+	<div id="grid" jsId="grid" id="grid" dojoType="dojox.grid.DataGrid" store="reservesStore" structure="layout" 
+		query="{ course_code:'*' }" autoHeight="true"></div>
 </div>
 </body>
 </html>
