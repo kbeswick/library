@@ -1,16 +1,16 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
-	"http://www.w3.org/TR/html4/loose.dtd"> 
-<html> 
-<head> 
+<!doctype html>
+<?php include('loggedin.php'); ?>
+<html>
+<head>
 	<title>Add Reserves</title> 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta> 
 	<style type="text/css"> 
-		@import "dojo/resources/dojo.css";
-		@import "dijit/themes/tundra/tundra.css"; 
+		@import "../dojo/resources/dojo.css";
+		@import "../dijit/themes/tundra/tundra.css"; 
 		div.formstuff {margin-left: 15%; margin-right: 15%}
 	</style> 
 	<!-- Need the following line to initialize dojo-->
-	<script type="text/javascript" src="dojo/dojo.js"  
+	<script type="text/javascript" src="../dojo/dojo.js"
 		djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script> 
 	<script type="text/javascript"> 
 		//includes
@@ -28,7 +28,7 @@
 				e.preventDefault(); //do not let the form do its default action
 				// arguments for a POST request
 				var xhrArgs = {
-					url: "reserves.php?mode=newpost",
+					url: "admin.php?mode=newpost",
 					form: 'addreserves',
 					load: function(responseObject){
 						// update our page to reflect the success
@@ -92,7 +92,7 @@
 	</button>
 </form>
 
+<h3><a href="logout.php">Logout</a></h3>
 </div>
-			
 </body>
 </html>
