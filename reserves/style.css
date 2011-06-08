@@ -1,0 +1,41 @@
+#error {
+  color: red;
+  text-align: center;
+  font-size: 1.3em;
+}
+#login-container {
+  width: 310px;
+  margin: 0 auto;
+}
+#login-welcome {
+  text-align: center;
+}
+#login-title-image {
+  width: 310px;
+  height: 87px;
+}
+#login-form {
+  width: 300px;
+  height: 90px;
+  background-color: #B2C9E0;;
+  padding: 5px;
+  border: 1px solid;
+  margin-top: 30px;
+}
+#login-form form table {
+  width: 100%;
+}
+label {
+  font-size: 1.3em;
+}
+input[type="submit"] {
+  position: relative;
+  margin-top: 10px;
+  left: 240px;
+}
+td {
+  text-align: center;
+}
+input[type="text"], input[type="password"] {
+  background-color: #F2F2F2;
+}

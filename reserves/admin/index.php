@@ -2,21 +2,36 @@
 <html>
   <head>
     <title>Login to Add Reserves</title>
+    <style type="text/css">
+      @import "../dojo/resources/dojo.css";
+      @import "../style.css";
+    </style>
   </head>
   <body>
-    <form method="post" action="index.php">
-      <table>
-        <tr>
-          <td>Username:</td>
-          <td><input type="text" name="username"></td>
-        </tr>
-        <tr>
-          <td>Password:</td>
-          <td><input type="password" name="password"></td>
-        </tr>
-      </table>
-      <input type="submit" name="submit" value="Login">
-    </form>
+    <div id="login-container">
+      <div id="login-title-image">
+        <img src="../laurentian.jpg" />
+      </div>
+      <div id="login-welcome">
+        <h1>Login to administer reserve list</h1>
+        <p>Please log in using the username and password provided to you to administer the reserve list</p>
+      </div>
+      <div id="login-form">
+        <form method="post" action="index.php">
+          <table>
+            <tr>
+              <td><label for="username">Username:</label></td>
+              <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+              <td><label for="password">Password:</label></td>
+              <td><input type="password" name="password"></td>
+            </tr>
+          </table>
+          <input type="submit" name="submit" value="Login">
+        </form>
+      </div>
+    </div>
   </body>
 </html>
 
@@ -24,10 +39,12 @@
 
   //Login script
 
+  $error = "<div id=\"error\"><p>Invalid Username or password</p></div>";
+
   if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // We aren't going to allow non alphanumeric usernames
     if (!ereg("^[A-Za-z0-9]", $_POST['username']))
-      die("Invalid Username or password");
+      die($error);
 
     $username = $_POST['username'];
     $password = md5($_POST['password']);
@@ -42,11 +59,11 @@
         header("Location: addreserves.php");
       }
       else {
-        die("Invalid Username or password");
+        die($error);
       }
     }
     else {
-      die("Invalid Username or password");
+      die($error);
     }
   }
 ?>

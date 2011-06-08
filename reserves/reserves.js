@@ -7,6 +7,11 @@ dojo.require("dojox.data.AndOrReadStore");
 
 var reservesStore;
 
+//The following needs to be configured to your own values:
+var HOSTNAME = "http://laurentian.concat.ca";
+var SKIN = "lul";
+var SEARCH_ORG = "osul";
+
 function showInstructions(lang)
 {
 	var oppLang = "english";
@@ -66,7 +71,7 @@ var layout =  [{cells:[[
 		
 dojo.addOnLoad(function(){	
 	dojo.connect(grid, 'onRowClick', function(e){
-		window.open('http://laurentian.concat.ca/opac/extras/feed/bookbag/opac/' + grid.store.getValue(grid.getItem(e.rowIndex),'bookbag_id') +'?skin=lul&searchOrg=OSUL');
+		window.open(HOSTNAME + '/opac/extras/feed/bookbag/opac/' + grid.store.getValue(grid.getItem(e.rowIndex),'bookbag_id') +'?skin='+ SKIN +'&searchOrg=' + SEARCH_ORG);
 	});
 	grid.setSortIndex(0, true);
 });
