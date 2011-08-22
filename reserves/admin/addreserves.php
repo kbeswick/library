@@ -5,8 +5,8 @@
     <title>Add Reserves</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta> 
     <style type="text/css"> 
-      @import "../dojo/resources/dojo.css";
-      @import "../dijit/themes/tundra/tundra.css"; 
+      @import "../js/dojo/resources/dojo.css";
+      @import "../js/dijit/themes/tundra/tundra.css"; 
       div.formstuff {
         position: relative;
         width: 300px;
@@ -17,7 +17,7 @@
       }
     </style> 
     <!-- Need the following line to initialize dojo-->
-    <script type="text/javascript" src="../dojo/dojo.js"
+    <script type="text/javascript" src="../js/dojo/dojo.js"
       djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script> 
     <script type="text/javascript"> 
       //includes

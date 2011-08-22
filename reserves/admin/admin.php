@@ -10,12 +10,18 @@ function generate_reserve($bookbag_id, $course_code, $instructor)
 
   // Open sqlite db, then insert values
   $db_session = new PDO('sqlite:' . $db_location);
-  $query = "INSERT into reserve (course_code, instructor, bookbag_id) values ('".$course_code."', '".$instructor."', ".$bookbag_id.")";
-  $results = $db_session->Query($query);
-  if (!$results)
-    die('Query Failed... Please go back and retry');
+  $query = "SELECT count(*) from reserve where bookbag_id = ".$bookbag_id;
+  $res = $db_session->Query($query);
+  
+  if ($res->fetchColumn() == 0) {
+    $query = "INSERT into reserve (course_code, instructor, bookbag_id) values ('".$course_code."', '".$instructor."', ".$bookbag_id.")";
+    $results = $db_session->Query($query);
+    if (!$results)
+      die('Query Failed... Please go back and retry');
+    return true;
+  }
 
-  return true;
+  return false;
 }
 
 function delete_reserve($reserve_id)

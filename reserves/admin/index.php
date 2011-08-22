@@ -3,7 +3,7 @@
   <head>
     <title>Login to Add Reserves</title>
     <style type="text/css">
-      @import "../dojo/resources/dojo.css";
+      @import "../js/dojo/resources/dojo.css";
       @import "../style.css";
     </style>
   </head>
