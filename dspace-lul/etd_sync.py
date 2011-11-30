@@ -5,6 +5,8 @@
 # A script which searches a DSpace database for any items under
 # collections named "Masters Theses", "Doctoral Theses", and "Undergraduate
 # Theses", and adds them to a top level Electronic Theses community
+#
+# Best run as a cronjob
 
 import psycopg2
 
