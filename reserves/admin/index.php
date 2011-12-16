@@ -30,24 +30,15 @@
  * SUCH DAMAGE.
  */
 ?>
-<html>
-  <head>
-    <title>Login to Add Reserves</title>
-    <style type="text/css">
-      @import "../js/dojo/resources/dojo.css";
-      @import "../style.css";
-    </style>
-  </head>
-  <body>
+<?php
+  include('../header.php');
+?>
     <div id="login-container">
-      <div id="login-title-image">
-        <img src="../laurentian.jpg" />
-      </div>
+    <h2 class="login_title">Login to administer reserve list</h2>
+      <div id="login-form" class="light">
       <div id="login-welcome">
-        <h1>Login to administer reserve list</h1>
         <p>Please log in using the username and password provided to you to administer the reserve list</p>
       </div>
-      <div id="login-form">
         <form method="post" action="index.php">
           <table>
             <tr>
@@ -62,10 +53,9 @@
           <input type="submit" name="submit" value="Login">
         </form>
       </div>
-    </div>
-  </body>
-</html>
-
+<?php
+  include('../footer.php');
+?>
 <?php
 
   //Login script

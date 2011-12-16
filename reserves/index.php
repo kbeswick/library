@@ -1,23 +1,9 @@
-<!doctype html>
-<html>
-  <head>
-    <title>List Reserves/Liste Des Reserves</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
-    <style type="text/css">
-      @import "js/dojox/grid/resources/Grid.css";
-      @import "style.css";
-    </style>
-    <script type="text/javascript" src="js/dojo/dojo.js"
-      djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script>
-    <script type="text/javascript" src="js/reserves.js"></script>
-  </head>
-  <body>
-    <div class="center">
-      <img src="laurentian.jpg" />
+<?php include('header.php'); ?>
+      <script type="text/javascript" src="/js/reserves.js"></script>
       <div class="content">
-        <h1>Reserves List / Liste De Réserves</h1>
-        <h3><a href="#" onClick='showInstructions("english")'>Show English Instructions</a></h3>
-        <h3><a href="#" onClick='showInstructions("french")'>Montrez Les Instructions Françaises</a></h3>
+        <div class="light">
+        <h3 class="show_instructions"><a href="#" onClick='showInstructions("english")'>Show English Instructions</a> | </h3>
+        <h3 class="show_instructions"><a href="#" onClick='showInstructions("french")'>Montrez Les Instructions Françaises</a></h3>
         <div id="instructions" style="display:none">
           <div id="instructions_english" style="display:none">
             <p>Professors may place library material which is in high demand on
@@ -57,17 +43,18 @@
           <img src="reserves.png" width="640px" height="393px" />
           <img src="reserves2.png" />
         </div>
+        </div>
       </div>
-      <div id="search">
+      <div id="search" class="light">
         <table>
           <tr>
-            <td>Narrow by Course Code:</td>
+            <td><span class="label">Narrow by Course Code:</span></td>
             <td>
               <input dojoType="dijit.form.TextBox" id="course_search" intermediateChanges="true" onChange="grid.filter({ course_code: dijit.byId('course_search').attr('value').toUpperCase() + '*' });"></input>
             </td>
           </tr>
           <tr>
-            <td>Narrow by Instructor (Last Name):</td>
+            <td><span class="label">Narrow by Instructor (Last Name):</span></td>
             <td>
               <input dojoType="dijit.form.TextBox" id="ins_search" intermediateChanges="true" 
                 onChange="grid.filter({ instructor: dijit.byId('ins_search').attr('value').substr(0,1).toUpperCase() + dijit.byId('ins_search').attr('value').substr(1) + '*' });"
@@ -77,9 +64,11 @@
         </table>
       </div>
 
-      <div id="menu">
-        <h3>
+      <div id="menu" class="light">
+        <span class="label">
           Filter by Course Code: &nbsp; &nbsp; &nbsp;
+        </span>
+        <span>
           <a href="#" onClick="narrowList( new Array('A','B','C') );">A-C</a>&nbsp;&nbsp;
           <a href="#" onClick="narrowList( new Array('D','E','F') );">D-F</a>&nbsp;&nbsp;
           <a href="#" onClick="narrowList( new Array('G','H','I') );">G-I</a>&nbsp;&nbsp;
@@ -90,11 +79,11 @@
           <a href="#" onClick="narrowList( new Array('V','W','X','Y','Z') );">V-Z</a>&nbsp;&nbsp
           <a href="#" onClick="narrowList( 'ENVISION' );">ENVISION</a>&nbsp;&nbsp;
           <a href="#" onClick="narrowList( new Array('*') );">Show All</a>
-        </h3>
+        </span>
       </div>
-      <div id="grid" jsId="grid" id="grid" dojoType="dojox.grid.DataGrid" store="reservesStore" structure="layout" 
-        query="{ course_code:'*' }" autoHeight="true">
+      <div class="light">
+        <div id="grid" class="grid" jsId="grid" dojoType="dojox.grid.DataGrid" store="reservesStore" structure="layout" 
+          query="{ course_code:'*' }" autoHeight="true">
+        </div>
       </div>
-    </div>
-  </body>
-</html>
+<?php include('footer.php'); ?>

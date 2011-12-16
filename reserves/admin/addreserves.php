@@ -32,21 +32,9 @@
 
 
 include('loggedin.php');
-
+include('../header.php');
 ?>
-<html>
-  <head>
-    <title>Reserves Admin</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.4/dijit/themes/tundra/tundra.css">
-    <style type="text/css">
-      @import "../style.css";
-      @import "../js/dojox/grid/resources/Grid.css";
-    </style>
-    <!-- Need the following line to initialize dojo-->
-    <script type="text/javascript" src="../js/dojo/dojo.js"
-      djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script>
-    <script type="text/javascript" src="reservesadmin.js"></script>
+   <script type="text/javascript" src="reservesadmin.js"></script>
     <script type="text/javascript">
       //includes
       dojo.require("dijit.form.Form");
@@ -81,17 +69,10 @@ include('loggedin.php');
       }
       dojo.addOnLoad(submitStuff); // execute this function when dojo has loaded
     </script>
-  </head>
-  <body class="tundra">
-    <div id="container">
       <div id="usermenu">
-        <h3><a href="logout.php">Logout</a></h3>
+        <h4>Logged in... (<a href="logout.php">Logout</a>)</h4>
       </div>
-      <div id="header">
-        <img src="../laurentian.jpg" />
-        <h1>Reserve List Administration</h1>
-      </div>
-      <div id="admin_instructions">
+      <div id="admin_instructions" class="light">
         <h2>To Add Reserves:</h2>
         <p>Fill out the form below with the course code, instructor, and bookbag ID to have it added to the reserve list.
         </p>
@@ -100,23 +81,23 @@ include('loggedin.php');
            can modify the reserve information and click on "Save" or simply click on "Delete This Reserve" to delete the reserve.
         </p>
       </div>
-      <div id="add_reserve_form">
+      <div id="add_reserve_form" class="light">
         <!-- Create form. Also create inputs and buttons in the form. Similar to normal HTML form creation -->
         <h2>Add Reserve</h2>
         <form dojoType="dijit.form.Form" id="addreserves" jsId="addreserves" encType="multipart/form-data" action="" method="post">
           <table>
           <tr>
-            <td><label for="coursecode">Course Code</label></td>
+            <td><label for="coursecode">Course Code: </label></td>
             <td><input type="text" name="coursecode" value="" dojoType="dijit.form.TextBox" trim="true"></td>
           </tr>
 
           <tr>
-            <td><label for="instructor">Instructor</label></td>
+            <td><label for="instructor">Instructor: </label></td>
             <td><input type="text" name="instructor" value="" dojoType="dijit.form.TextBox" trim="false"></td>
           </tr>
 
           <tr>
-            <td><label for="bookbagid">Bookbag ID</label></td>
+            <td><label for="bookbagid">Bookbag ID: </label></td>
             <td><input type="text" name="bookbagid" value="" dojoType="dijit.form.TextBox" trim="true"></td>
           </tr>
         </table>
@@ -130,7 +111,7 @@ include('loggedin.php');
           </button>
         </form>
       </div>
-      <div id="grid_div">
+      <div id="grid_div" class="light">
         <h2>Edit/Delete Reserves</h2>
         <div id="grid" jsId="grid" id="grid" dojoType="dojox.grid.DataGrid" store="reservesStore" structure="layout" 
           query="{ course_code:'*' }" autoHeight="true"></div>
@@ -170,6 +151,4 @@ include('loggedin.php');
             Delete This Reserve
           </button>
       </div>
-    </div>
-  </body>
-</html>
+<?php include('../footer.php'); ?>
