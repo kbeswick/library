@@ -56,19 +56,23 @@ function generate_reserve($bookbag_id, $course_code, $instructor)
 
 function delete_reserve($reserve_id)
 {
-  $db_session = new SQLite3('reserves.db');
+  //use an sqlite db to store values
+  $db_location = '../reserves.db';
+
+  $db_session = new PDO('sqlite:' . $db_location);
   $query = "DELETE from reserve where id = " . $reserve_id;
-  $db_session->exec($query) or die ( $db_session->lastErrorMsg() );
-  $db_session->close();
+  $db_session->exec($query) or die(print_r($db_session->errorInfo(), true));
   return true;
 }
 
 function edit_reserve($reserve_id, $bookbag_id, $instructor, $course_code)
 {
-  $db_session = new SQLite3('reserves.db');
+  //use an sqlite db to store values
+  $db_location = '../reserves.db';
+
+  $db_session = new PDO('sqlite:' . $db_location);
   $query = "UPDATE reserve set instructor = \"" . $instructor . "\", course_code = \"" . $course_code . "\", bookbag_id = " . $bookbag_id . " where id = " . $reserve_id;
-  $db_session->exec($query) or die( $db_session->lastErrorMsg() );
-  $db_session->close();
+  $db_session->exec($query) or die(print_r($db_session->errorInfo(), true));
   return true;
 }
 
@@ -113,6 +117,23 @@ if ($_GET['mode'] == 'newpost')
   $bookbag_id = $_POST['bookbagid'];
   generate_reserve($bookbag_id,$course_code,$instructor);
   echo "success";
+}
+else if ($_GET['mode'] == 'delete')
+{
+  $id = $_POST['reserve_id'];
+  delete_reserve($id);
+  header("Location: /admin/addreserves.php");
+  die;
+}
+else if ($_GET['mode'] == 'edit')
+{
+  $id = $_POST['reserve_id'];
+  $course_code = $_POST['coursecode'];
+  $instructor = $_POST['instructor'];
+  $bookbag_id = $_POST['bookbagid'];
+  edit_reserve($id, $bookbag_id, $instructor, $course_code);
+  header("Location: /admin/addreserves.php");
+  die;
 }
 else if ($_GET['mode'] == 'check_links')
 {

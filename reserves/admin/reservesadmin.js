@@ -34,53 +34,12 @@ dojo.require("dojo.data.ItemFileReadStore");
 dojo.require("dojox.grid.DataGrid");
 dojo.require("dojo.io.script");
 dojo.require("dojox.data.AndOrReadStore");
+dojo.require("dijit.Dialog");
 
 var reservesStore;
 
-//The following needs to be configured to your own values:
-var HOSTNAME = "http://laurentian.concat.ca";
-var SKIN = "lul";
-var SEARCH_ORG = "osul";
-
-function showInstructions(lang)
-{
-  var oppLang = "english";
-  if (lang == "english")
-    oppLang = "french";
-
-  var currentState = dojo.style(dojo.byId("instructions_" + lang), "display");
-  if (currentState == "none")
-  {
-    dojo.style(dojo.byId("instructions_" + lang), "display", "inline");
-    if (dojo.style(dojo.byId("instructions"), "display") == "none")
-      dojo.style(dojo.byId("instructions"), "display", "inline");
-    if (dojo.style(dojo.byId("instructions_" + oppLang), "display") == "inline")
-      dojo.style(dojo.byId("instructions_" + oppLang), "display", "none");
-  }
-  else
-  {
-    dojo.style(dojo.byId("instructions_" + lang), "display", "none");
-    if (dojo.style(dojo.byId("instructions_" + oppLang), "display") == "none")
-      dojo.style(dojo.byId("instructions"), "display", "none");
-  }
-
-}
-
-function narrowList(letters){
-  var filterQuery = '';
-  if (letters.constructor.toString().indexOf("Array") == -1) {
-    filterQuery += 'instructor: ' + letters;
-  }
-  else {
-    dojo.forEach(letters, function(l) {
-      filterQuery += 'course_code: "' + l + '*" OR ';
-    });
-    filterQuery = filterQuery.substring(0, filterQuery.length - 4);
-  }
-  grid.filter({ complexQuery: filterQuery });
-}
-
 function getReserves(){
+
   var xhrArgs = {
     url: "/reserves.php?mode=get",
     handleAs: "json",
@@ -100,11 +59,39 @@ var layout =  [{cells:[[
         {field: "instructor", name: "Instructor", width: "50%"}
         ]]}];
 
+
 dojo.addOnLoad(function(){
-  dojo.connect(grid, 'onRowClick', function(e){
-    window.open(HOSTNAME + '/opac/extras/feed/bookbag/opac/' + grid.store.getValue(grid.getItem(e.rowIndex),'bookbag_id') +'?skin='+ SKIN +'&searchOrg=' + SEARCH_ORG);
+  //Set up popup
+  dojo.connect(grid, 'onRowClick', function(e) {
+    dojo.attr(
+      dojo.byId("edit_coursecode"),
+      "value",
+      grid.store.getValue(grid.getItem(e.rowIndex),'course_code')
+    );
+    dojo.attr(
+      dojo.byId("edit_instructor"),
+      "value",
+      grid.store.getValue(grid.getItem(e.rowIndex),'instructor')
+    );
+    dojo.attr(
+      dojo.byId("edit_bookbagid"),
+      "value",
+      grid.store.getValue(grid.getItem(e.rowIndex),'bookbag_id')
+    );
+    dojo.attr(
+      dojo.byId("edit_reserve_id"),
+      "value",
+      grid.store.getValue(grid.getItem(e.rowIndex),'id')
+    );
+
+    dojo.attr(
+      dojo.byId("delete_reserve_id"),
+      "value",
+      grid.store.getValue(grid.getItem(e.rowIndex),'id')
+    );
+
+    dijit.byId("editDeleteReserveBox").show();
   });
   grid.setSortIndex(0, true);
 });
-
 

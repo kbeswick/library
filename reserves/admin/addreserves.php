@@ -36,24 +36,18 @@ include('loggedin.php');
 ?>
 <html>
   <head>
-    <title>Add Reserves</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta> 
-    <style type="text/css"> 
-      @import "../js/dojo/resources/dojo.css";
-      @import "../js/dijit/themes/tundra/tundra.css"; 
-      div.formstuff {
-        position: relative;
-        width: 300px;
-        margin: 0 auto;
-      }
-      #statuses {
-        font-size: 1.5em;
-      }
-    </style> 
+    <title>Reserves Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.4/dijit/themes/tundra/tundra.css">
+    <style type="text/css">
+      @import "../style.css";
+      @import "../js/dojox/grid/resources/Grid.css";
+    </style>
     <!-- Need the following line to initialize dojo-->
     <script type="text/javascript" src="../js/dojo/dojo.js"
-      djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script> 
-    <script type="text/javascript"> 
+      djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script>
+    <script type="text/javascript" src="reservesadmin.js"></script>
+    <script type="text/javascript">
       //includes
       dojo.require("dijit.form.Form");
       dojo.require("dijit.form.TextBox");
@@ -89,49 +83,93 @@ include('loggedin.php');
     </script>
   </head>
   <body class="tundra">
-  <div class="formstuff" id="formstuff">
-    <img src="../laurentian.jpg" />
-    <br />
-    <br />
-
-    <h1>Add to Reserves List </h1>
-    <br />
-    <br />
-    <p>Enter the course code, instructor, and the id of the bookbag that you created for this reserve. Press submit, and your entry will be added to the list.</p>
-    <!-- Create form. Also create inputs and buttons in the form. Similar to normal HTML form creation -->
-    <form dojoType="dijit.form.Form" id="addreserves" jsId="addreserves" encType="multipart/form-data" action="" method="post">
-      <table>
-      <tr>
-        <td><label for="coursecode">Course Code</label></td>
-        <td><input type="text" name="coursecode" value="" dojoType="dijit.form.TextBox" trim="true"></td>
-      <br />
-      </tr>
-
-      <tr>
-        <td><label for="instructor">Instructor</label></td>
-        <td><input type="text" name="instructor" value="" dojoType="dijit.form.TextBox" trim="false"></td>
-      </tr>
-      <br />
-
-      <tr>
-        <td><label for="bookbagid">Bookbag ID</label></td>
-        <td><input type="text" name="bookbagid" value="" dojoType="dijit.form.TextBox" trim="true"></td>
-      <br />
-      </tr>
-    </table>
-      <br />
-      <div class="formstuff" id="statuses">
+    <div id="container">
+      <div id="usermenu">
+        <h3><a href="logout.php">Logout</a></h3>
       </div>
-      <br />
-      <button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">
-        Submit
-      </button>
-      <button dojoType="dijit.form.Button" type="reset">
-        Clear
-      </button>
-    </form>
+      <div id="header">
+        <img src="../laurentian.jpg" />
+        <h1>Reserve List Administration</h1>
+      </div>
+      <div id="admin_instructions">
+        <h2>To Add Reserves:</h2>
+        <p>Fill out the form below with the course code, instructor, and bookbag ID to have it added to the reserve list.
+        </p>
+        <h2>To Modify/Delete Reserves:</h2>
+        <p>Click on the entry you wish to modify or delete from the list of reserves below. A window will appear where you
+           can modify the reserve information and click on "Save" or simply click on "Delete This Reserve" to delete the reserve.
+        </p>
+      </div>
+      <div id="add_reserve_form">
+        <!-- Create form. Also create inputs and buttons in the form. Similar to normal HTML form creation -->
+        <h2>Add Reserve</h2>
+        <form dojoType="dijit.form.Form" id="addreserves" jsId="addreserves" encType="multipart/form-data" action="" method="post">
+          <table>
+          <tr>
+            <td><label for="coursecode">Course Code</label></td>
+            <td><input type="text" name="coursecode" value="" dojoType="dijit.form.TextBox" trim="true"></td>
+          </tr>
 
-    <h3><a href="logout.php">Logout</a></h3>
-  </div>
+          <tr>
+            <td><label for="instructor">Instructor</label></td>
+            <td><input type="text" name="instructor" value="" dojoType="dijit.form.TextBox" trim="false"></td>
+          </tr>
+
+          <tr>
+            <td><label for="bookbagid">Bookbag ID</label></td>
+            <td><input type="text" name="bookbagid" value="" dojoType="dijit.form.TextBox" trim="true"></td>
+          </tr>
+        </table>
+          <div id="statuses">
+          </div>
+          <button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">
+            Submit
+          </button>
+          <button dojoType="dijit.form.Button" type="reset">
+            Clear
+          </button>
+        </form>
+      </div>
+      <div id="grid_div">
+        <h2>Edit/Delete Reserves</h2>
+        <div id="grid" jsId="grid" id="grid" dojoType="dojox.grid.DataGrid" store="reservesStore" structure="layout" 
+          query="{ course_code:'*' }" autoHeight="true"></div>
+      </div>
+    </div>
+    <div id="editDeleteReserveBox" dojoType="dijit.Dialog" title="Edit / Delete Reserve">
+      <div id="editReserveForm" dojoType="dijit.form.Form" action="admin.php?mode=edit" method="post">
+        <h3>Edit Reserve</h3>
+          <input type="hidden" id="edit_reserve_id" value="" name="reserve_id">
+          <table>
+          <tr>
+            <td><label for="coursecode">Course Code</label></td>
+            <td><input type="text" id="edit_coursecode" name="coursecode" value="" dojoType="dijit.form.TextBox" trim="true"></td>
+          </tr>
+
+          <tr>
+            <td><label for="instructor">Instructor</label></td>
+            <td><input type="text" id="edit_instructor" name="instructor" value="" dojoType="dijit.form.TextBox" trim="false"></td>
+          </tr>
+
+          <tr>
+            <td><label for="bookbagid">Bookbag ID</label></td>
+            <td><input type="text" id="edit_bookbagid" name="bookbagid" value="" dojoType="dijit.form.TextBox" trim="true"></td>
+          </tr>
+        </table>
+        <button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Save">
+          Save
+        </button>
+        <button dojoType="dijit.form.Button" onClick="dijit.byId('editDeleteReserveBox').hide();">
+          Cancel
+        </button>
+      </div>
+      <div id="deleteReserveForm" dojoType="dijit.form.Form" action="admin.php?mode=delete" method="post">
+        <h3>Delete Reserve</h3>
+          <input type="hidden" id="delete_reserve_id" value="" name="reserve_id">
+          <button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Delete This Reserve">
+            Delete This Reserve
+          </button>
+      </div>
+    </div>
   </body>
 </html>

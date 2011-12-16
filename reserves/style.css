@@ -33,9 +33,25 @@ input[type="submit"] {
   margin-top: 10px;
   left: 240px;
 }
-td {
+td.center {
   text-align: center;
 }
+#statuses {
+  font-size: 1.5em;
+}
+
 input[type="text"], input[type="password"] {
   background-color: #F2F2F2;
 }
+#container {
+  width: 800px;
+  margin: 0 auto;
+}
+#usermenu {
+  float: right;
+}
+#grid { 
+  width: 100%; 
+  height: auto; 
+}
+

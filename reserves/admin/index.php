@@ -51,12 +51,12 @@
         <form method="post" action="index.php">
           <table>
             <tr>
-              <td><label for="username">Username:</label></td>
-              <td><input type="text" name="username"></td>
+              <td class="center"><label for="username">Username:</label></td>
+              <td class="center"><input type="text" name="username"></td>
             </tr>
             <tr>
-              <td><label for="password">Password:</label></td>
-              <td><input type="password" name="password"></td>
+              <td class="center"><label for="password">Password:</label></td>
+              <td class="center"><input type="password" name="password"></td>
             </tr>
           </table>
           <input type="submit" name="submit" value="Login">
