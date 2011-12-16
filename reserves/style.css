@@ -54,4 +54,6 @@ input[type="text"], input[type="password"] {
   width: 100%; 
   height: auto; 
 }
-
+div.center {
+  margin: auto; width: 70%;
+}
