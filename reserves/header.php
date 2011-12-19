@@ -12,7 +12,7 @@
       djConfig="isDebug: false, debugAtAllCosts: false, parseOnLoad: true"></script>
   </head>
   <body class="tundra">
-    <div class="center">
+    <div id="container">
       <div id="header">
         <img src="/laurentian.jpg">
         <h1><a href="/">Reserves List / Liste De Réserves</a></h1>

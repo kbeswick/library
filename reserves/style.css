@@ -45,6 +45,10 @@ div.light {
   padding: 5px 10px;
   margin-top: 10px;
   margin-bottom: 10px;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#DDDDDD')";
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#DDDDDD');
+  -moz-box-shadow: 2px 2px 2px #DDD;
+  -webkit-box-shadow: 2px 2px 2px #DDD;
   box-shadow: 2px 2px 2px #DDD;
 }
 #error {
@@ -91,7 +95,7 @@ td.center {
 input[type="text"], input[type="password"] {
 }
 #container {
-  width: 800px;
+  width: 960px;
   margin: 0 auto;
 }
 #usermenu {
@@ -101,7 +105,13 @@ input[type="text"], input[type="password"] {
   width: 100%;
   height: auto;
   border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px;
   box-shadow: 2px 2px 2px #DDD;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#DDDDDD')";
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#DDDDDD');
+  -moz-box-shadow: 2px 2px 2px #DDD;
+  -webkit-box-shadow: 2px 2px 2px #DDD;
+
 }
 div.center {
   margin: auto; width: 70%;
