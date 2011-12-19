@@ -34,11 +34,8 @@
   include('../header.php');
 ?>
     <div id="login-container">
-    <h2 class="login_title">Login to administer reserve list</h2>
       <div id="login-form" class="light">
-      <div id="login-welcome">
-        <p>Please log in using the username and password provided to you to administer the reserve list</p>
-      </div>
+        <h2 class="login_title">Log in to administer reserve list</h2>
         <form method="post" action="index.php">
           <table>
             <tr>

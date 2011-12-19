@@ -103,12 +103,14 @@ include('../header.php');
         </table>
           <div id="statuses">
           </div>
-          <button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">
-            Submit
-          </button>
-          <button dojoType="dijit.form.Button" type="reset">
-            Clear
-          </button>
+          <div id="add_reserve_buttons">
+            <button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">
+              Submit
+            </button>
+            <button dojoType="dijit.form.Button" type="reset">
+              Clear
+            </button>
+          </div>
         </form>
       </div>
       <div id="grid_div" class="light">
