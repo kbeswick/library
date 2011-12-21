@@ -31,15 +31,13 @@
  */
 
 require('loggedin.php');
+require('../settings.php');
 
 // Take in values from a form and make a reserve
 function generate_reserve($bookbag_id, $course_code, $instructor)
 {
-  //use an sqlite db to store values
-  $db_location = '../reserves.db';
-
   // Open sqlite db, then insert values
-  $db_session = new PDO('sqlite:' . $db_location);
+  $db_session = new PDO('sqlite:../' . $SETTINGS['dbfile']);
   $query = "SELECT count(*) from reserve where bookbag_id = ".$bookbag_id;
   $res = $db_session->Query($query);
   
@@ -56,10 +54,7 @@ function generate_reserve($bookbag_id, $course_code, $instructor)
 
 function delete_reserve($reserve_id)
 {
-  //use an sqlite db to store values
-  $db_location = '../reserves.db';
-
-  $db_session = new PDO('sqlite:' . $db_location);
+  $db_session = new PDO('sqlite:../' . $SETTINGS['dbfile']);
   $query = "DELETE from reserve where id = " . $reserve_id;
   $db_session->exec($query) or die(print_r($db_session->errorInfo(), true));
   return true;
@@ -67,10 +62,7 @@ function delete_reserve($reserve_id)
 
 function edit_reserve($reserve_id, $bookbag_id, $instructor, $course_code)
 {
-  //use an sqlite db to store values
-  $db_location = '../reserves.db';
-
-  $db_session = new PDO('sqlite:' . $db_location);
+  $db_session = new PDO('sqlite:../' . $SETTINGS['dbfile']);
   $query = "UPDATE reserve set instructor = \"" . $instructor . "\", course_code = \"" . $course_code . "\", bookbag_id = " . $bookbag_id . " where id = " . $reserve_id;
   $db_session->exec($query) or die(print_r($db_session->errorInfo(), true));
   return true;

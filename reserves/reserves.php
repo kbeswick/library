@@ -29,13 +29,16 @@
  * SUCH DAMAGE.
  */
 
+
 // Retrieve the JSON list of reserves
 function retrieve_reserve_list($file_store)
 {
+
+  include('settings.php');
   include('JSON.php');
 
   // First- create db connection and query, then execute
-  $db_session = new PDO('sqlite:reserves.db');
+  $db_session = new PDO('sqlite:' . $SETTINGS['dbfile']);
   $query = "SELECT * from reserve";
 
   $set_count = 0;

@@ -34,7 +34,7 @@
 include('loggedin.php');
 include('../header.php');
 ?>
-   <script type="text/javascript" src="reservesadmin.js"></script>
+    <script type="text/javascript" src="reservesadmin.js"></script>
     <script type="text/javascript">
       //includes
       dojo.require("dijit.form.Form");

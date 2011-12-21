@@ -1,7 +1,8 @@
+<?php include 'settings.php' ?>
 <!doctype html>
 <html>
   <head>
-    <title>List Reserves/Liste Des Reserves</title>
+  <title><?php print $SETTINGS['title']; ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.4/dijit/themes/tundra/tundra.css">
     <style type="text/css">
@@ -14,7 +15,7 @@
   <body class="tundra">
     <div id="container">
       <div id="header">
-        <img src="/laurentian.jpg">
-        <h1><a href="/">Reserves List / Liste De Réserves</a></h1>
+        <img src="<?php print $SETTINGS['headerimage']; ?>">
+        <h1><a href="<?php print $SETTINGS['baseaddress']; ?>"><?php print $SETTINGS['title']; ?></a></h1>
       </div>
 
