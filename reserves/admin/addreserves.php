@@ -50,7 +50,7 @@ include('../header.php');
           e.preventDefault(); //do not let the form do its default action
           // arguments for a POST request
           var xhrArgs = {
-            url: "admin.php?mode=newpost",
+            url: base_url + "/admin/admin.php?mode=newpost",
             form: 'addreserves',
             load: function(responseObject){
               // update our page to reflect the success

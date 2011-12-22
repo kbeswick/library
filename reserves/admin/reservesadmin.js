@@ -41,7 +41,7 @@ var reservesStore;
 function getReserves(){
 
   var xhrArgs = {
-    url: "/reserves.php?mode=get",
+    url: base_url + "/reserves.php?mode=get",
     handleAs: "json",
     sync: true,
     preventCache: true,
