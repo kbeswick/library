@@ -56,7 +56,10 @@ include('../header.php');
               // update our page to reflect the success
               dojo.byId("statuses").innerHTML = '<font color="#339900">Reserve added</font>';
               form.reset(); // reset the form
-            },
+              // update reserves list display
+              getReserves();
+              grid.setStore(reservesStore);
+           },
             error: function(error){
               // update our page to reflect our failure
               dojo.byId("statuses").innerHTML = '<font color="#FF0000">Error: ' + error + '</font>';
