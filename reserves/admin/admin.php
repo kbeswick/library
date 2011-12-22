@@ -31,6 +31,7 @@
  */
 
 require('loggedin.php');
+require('../settings.php');
 
 // Take in values from a form and make a reserve
 function generate_reserve($bookbag_id, $course_code, $instructor)
@@ -117,7 +118,7 @@ else if ($_GET['mode'] == 'delete')
 {
   $id = $_POST['reserve_id'];
   delete_reserve($id);
-  header("Location: /admin/addreserves.php");
+  header("Location: " . $SETTINGS['baseaddress'] . "/admin/addreserves.php");
   die;
 }
 else if ($_GET['mode'] == 'edit')
@@ -127,7 +128,7 @@ else if ($_GET['mode'] == 'edit')
   $instructor = $_POST['instructor'];
   $bookbag_id = $_POST['bookbagid'];
   edit_reserve($id, $bookbag_id, $instructor, $course_code);
-  header("Location: /admin/addreserves.php");
+  header("Location: " . $SETTINGS['baseaddress'] . "/admin/addreserves.php");
   die;
 }
 else if ($_GET['mode'] == 'check_links')

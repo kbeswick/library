@@ -31,7 +31,7 @@
 ?>
 
 <?php include('header.php'); ?>
-      <script type="text/javascript" src="/js/reserves.js"></script>
+      <script type="text/javascript" src="<?php print $SETTINGS['baseaddress'];?>/js/reserves.js"></script>
       <div class="content">
         <div class="light">
         <h3 class="show_instructions"><a href="#" onClick='showInstructions("english")'>Show English Instructions</a> | </h3>
